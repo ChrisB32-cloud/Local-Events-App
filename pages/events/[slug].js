@@ -11,7 +11,7 @@ export default function EventPage({ evt }) {
     function deleteEvent() {
         //
     }
-    console.log(evt);
+    // console.log(evt);
     return (
         <Layout>
             <div className={styles.event}>
