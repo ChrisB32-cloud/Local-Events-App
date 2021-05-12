@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #fff;
+    background: rgb(190, 189, 189);
     color: #333;
     height: 60px;
     padding: 0 30px;
@@ -14,8 +14,9 @@
     margin-right: 20px;
   }
   
+  /* Wouldn't be a bad primary text color */
   .header a:hover {
-    color: #000;
+    color: rgb(155, 130, 115);
   }
   .header ul {
     display: flex;
@@ -25,13 +26,13 @@
   }
   
   .logo {
-    color: red;
+    color: rgb(41, 40, 40);
     font-size: 20px;
     text-transform: uppercase;
   }
   
   .logo a {
-    color: red;
+    color: rgb(41, 40, 40);
   }
   
   @media (max-width: 768px) {

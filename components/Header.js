@@ -8,7 +8,7 @@ export default function Header() {
     return (
         <header className={styles.header}>
             <div className={styles.logo}>
-                <Link href='/'><a>Lcoal Events</a></Link>
+                <Link href='/'><a>Local Events</a></Link>
             </div>
             <SearchComp />
             <nav>
