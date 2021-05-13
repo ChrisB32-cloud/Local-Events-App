@@ -4,12 +4,15 @@ import Image from 'next/image'
 import { FaPencilAlt, FaTimes } from 'react-icons/fa'
 import Layout from '../../components/Layout'
 import { API_URL } from '../../config/index'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import styles from '../../styles/Event.module.css'
 
 export default function EventPage({ evt }) {
 
-    function deleteEvent() {
-        //
+    function deleteEvent(e) {
+        e.preventDefault()
+        console.log('delete');
     }
     // console.log(evt);
     return (
