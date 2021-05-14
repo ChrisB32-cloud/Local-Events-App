@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { FaImage } from 'react-icons/fa'
 import { useRouter } from 'next/router'
 import Modal from '../../../components/Modal'
+import ImageUpload from '../../../components/ImageUpload'
 import Link from 'next/link'
 import { API_URL } from '../../../config/index'
 import Layout from '../../../components/Layout'
@@ -14,7 +15,7 @@ import styles from '../../../styles/Form.module.css'
 
 export default function EditEventPage({ evt }) {
 
-    console.log(evt);
+    // console.log(evt);
 
     const router = useRouter()
     const [values, setValues] = useState({
@@ -69,6 +70,15 @@ export default function EditEventPage({ evt }) {
             router.push(`/events/${evt.slug}`)
         }
 
+    }
+
+    const imageUploaded = async (e) => {
+        //
+        // console.log('Uploaded');
+        const res = await fetch(`${API_URL}/events/${evt.id}`)
+        const data = await res.json()
+        setImagePreview(data.image.formats.thumbnail.url)
+        setShowModal(false)
     }
 
     // console.log(values);
@@ -158,7 +168,7 @@ export default function EditEventPage({ evt }) {
                 </button>
             </div>
             <Modal show={showModal} onClose={() => setShowModal(false)}>
-                Image Upload
+                <ImageUpload evtId={evt.id} imageUploaded={imageUploaded} />
             </Modal>
         </Layout>
     )
