@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import { FaImage } from 'react-icons/fa'
 import { useRouter } from 'next/router'
+import Modal from '../../../components/Modal'
 import Link from 'next/link'
 import { API_URL } from '../../../config/index'
 import Layout from '../../../components/Layout'
@@ -27,6 +28,8 @@ export default function EditEventPage({ evt }) {
     });
 
     const [imagePreview, setImagePreview] = useState(evt.image ? evt.image.formats.thumbnail.url : null)
+
+    const [showModal, setShowModal] = useState(false)
 
     const handleChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value })
@@ -150,10 +153,13 @@ export default function EditEventPage({ evt }) {
                 height={120}
             /> : <div><p>No Preview image</p></div>}
             <div>
-                <button className="btn-secondary">
+                <button className="btn-secondary" onClick={() => setShowModal(true)}>
                     <FaImage /> Set Image
                 </button>
             </div>
+            <Modal show={showModal} onClose={() => setShowModal(false)}>
+                Image Upload
+            </Modal>
         </Layout>
     )
 }
