@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
+import Image from 'next/image'
+import { FaImage } from 'react-icons/fa'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { API_URL } from '../../../config/index'
 import Layout from '../../../components/Layout'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import moment from 'moment'
 import styles from '../../../styles/Form.module.css'
 
 
@@ -22,6 +25,8 @@ export default function EditEventPage({ evt }) {
         time: evt.time,
         description: evt.description
     });
+
+    const [imagePreview, setImagePreview] = useState(evt.image ? evt.image.formats.thumbnail.url : null)
 
     const handleChange = (e) => {
         setValues({ ...values, [e.target.name]: e.target.value })
@@ -46,8 +51,8 @@ export default function EditEventPage({ evt }) {
             });
         }
 
-        const res = await fetch(`${API_URL}/events`, {
-            method: 'POST',
+        const res = await fetch(`${API_URL}/events/${evt.id}`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -114,7 +119,7 @@ export default function EditEventPage({ evt }) {
                             type="date"
                             id='date'
                             name='date'
-                            value={values.date}
+                            value={moment(values.date).format('yyyy-MM-DD')}
                             onChange={handleChange} />
                     </div>
                     <div>
@@ -138,6 +143,17 @@ export default function EditEventPage({ evt }) {
                 </div>
                 <input type='submit' value='Update Event' className='btn' />
             </form>
+            <h2>Event Image</h2>
+            {imagePreview ? <Image
+                src={imagePreview}
+                width={200}
+                height={120}
+            /> : <div><p>No Preview image</p></div>}
+            <div>
+                <button className="btn-secondary">
+                    <FaImage /> Set Image
+                </button>
+            </div>
         </Layout>
     )
 }
