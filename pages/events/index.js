@@ -1,9 +1,9 @@
 import Layout from '../../components/Layout'
 import { API_URL } from '../../config/index'
 import EventItem from '../../components/EventItem'
-import Link from 'next/link'
+import Pagination from '../../components/Pagination'
 
-const PER_PAGE = 2
+const PER_PAGE = 5
 
 
 export default function EventsPage({ events, page, total }) {
@@ -24,15 +24,7 @@ export default function EventsPage({ events, page, total }) {
                     {evt.name}
                 </EventItem>
             ))}
-
-            {page > 1 && <Link href={`/events?page=${page - 1}`}>
-                <a className='btn-secondary'>Prev</a>
-            </Link>}
-
-            {page < lastPage && <Link href={`/events?page=${page + 1}`}>
-                <a className='btn-secondary'>Next</a>
-            </Link>}
-
+            <Pagination page={page} lastPage={lastPage} />
         </Layout>
     )
 }
