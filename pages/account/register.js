@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react'
+import AuthContext from '../../context/AuthContext'
 import { FaUser } from 'react-icons/fa'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -8,31 +9,36 @@ import styles from '../../styles/LoginPage.module.css'
 
 export default function RegisterPage() {
 
+    const { register, error } = useContext(AuthContext);
 
-    const [login, setLogin] = useState({
-        user: '',
+    const [getLogin, setGetLogin] = useState({
+        userName: '',
+        email: '',
         password: '',
         confirmPassword: ''
     })
 
     const handleChange = (e) => {
-        setLogin({ ...login, [e.target.name]: e.target.value })
+        setGetLogin({ ...getLogin, [e.target.name]: e.target.value })
     }
-
-
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(login.user);
-        console.log(login.password)
 
-        if (login.password !== login.confirmPassword) {
+        if (getLogin.password !== getLogin.confirmPassword) {
             toast.error(`Password Doesn't Match!!`)
-            setLogin({
-                user: '',
+            setGetLogin({
+                userName: '',
+                email: '',
                 password: '',
                 confirmPassword: ''
             })
+        }
+
+        try {
+            register(getLogin)
+        } catch (err) {
+            console.log(err, error);
         }
     }
 
@@ -47,11 +53,19 @@ export default function RegisterPage() {
                 </h1>
                     <ToastContainer />
                     <div>
+                        <label htmlFor="User" >User Name</label>
+                        <input
+                            type="text"
+                            name='userName'
+                            value={getLogin.userName}
+                            onChange={handleChange} />
+                    </div>
+                    <div>
                         <label htmlFor="Email" >Email</label>
                         <input
                             type="text"
-                            name='user'
-                            value={login.user}
+                            name='email'
+                            value={getLogin.email}
                             onChange={handleChange} />
                     </div>
                     <div>
@@ -59,7 +73,7 @@ export default function RegisterPage() {
                         <input
                             type="password"
                             name='password'
-                            value={login.password}
+                            value={getLogin.password}
                             onChange={handleChange} />
                     </div>
                     <div>
@@ -67,7 +81,7 @@ export default function RegisterPage() {
                         <input
                             type="password"
                             name='confirmPassword'
-                            value={login.confirmPassword}
+                            value={getLogin.confirmPassword}
                             onChange={handleChange} />
                     </div>
                     <input type="submit" value='Login' className='btn' />

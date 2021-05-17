@@ -2,26 +2,34 @@ import React, { useState, useEffect, useContext } from 'react'
 import { FaUser } from 'react-icons/fa'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AuthContext from '../../context/AuthContext'
 import Link from 'next/link'
 import Layout from '../../components/Layout'
 import styles from '../../styles/LoginPage.module.css'
 
 export default function LoginPage() {
 
-
-    const [login, setLogin] = useState({
+    const { login, error } = useContext(AuthContext);
+    const [getLogin, setGetLogin] = useState({
         user: '',
         password: ''
-    })
+    });
 
     const handleChange = (e) => {
-        setLogin({ ...login, [e.target.name]: e.target.value })
+        setGetLogin({ ...getLogin, [e.target.name]: e.target.value })
     }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log(login.user);
-        console.log(login.password)
+        // console.log(getLogin.user);
+        // console.log(getLogin.password)
+        try {
+            const email = getLogin.user
+            const password = getLogin.password
+            login({ email, password })
+        } catch (err) {
+            console.log(err, error);
+        }
     }
 
 
@@ -38,7 +46,7 @@ export default function LoginPage() {
                         <input
                             type="text"
                             name='user'
-                            value={login.user}
+                            value={getLogin.user}
                             onChange={handleChange} />
                     </div>
                     <div>
@@ -46,7 +54,7 @@ export default function LoginPage() {
                         <input
                             type="password"
                             name='password'
-                            value={login.password}
+                            value={getLogin.password}
                             onChange={handleChange} />
                     </div>
                     <input type="submit" value='Login' className='btn' />
