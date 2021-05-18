@@ -19,6 +19,8 @@ export default function LoginPage() {
         setGetLogin({ ...getLogin, [e.target.name]: e.target.value })
     }
 
+    useEffect(() => error && toast.error(error))
+
     const handleSubmit = (e) => {
         e.preventDefault()
         // console.log(getLogin.user);
