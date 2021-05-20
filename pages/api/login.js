@@ -22,7 +22,7 @@ export default async (req, res) => {
         if (strapiRes.ok) {
             // must do -> Set cookie
 
-            res.setHeader('Set-cookie', cookie.serialize('token', data.jwt, {
+            res.setHeader('Set-Cookie', cookie.serialize('token', data.jwt, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV !== 'development',
                 maxAge: 60 * 60 * 24 * 7, // one week

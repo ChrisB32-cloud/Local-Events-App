@@ -11,7 +11,7 @@ export default function LoginPage() {
 
     const { login, error } = useContext(AuthContext);
     const [getLogin, setGetLogin] = useState({
-        user: '',
+        userEmail: '',
         password: ''
     });
 
@@ -26,7 +26,7 @@ export default function LoginPage() {
         // console.log(getLogin.user);
         // console.log(getLogin.password)
         try {
-            const email = getLogin.user
+            const email = getLogin.userEmail
             const password = getLogin.password
             login({ email, password })
         } catch (err) {
@@ -47,8 +47,8 @@ export default function LoginPage() {
                         <label htmlFor="Email" >Email</label>
                         <input
                             type="text"
-                            name='user'
-                            value={getLogin.user}
+                            name='userEmail'
+                            value={getLogin.userEmail}
                             onChange={handleChange} />
                     </div>
                     <div>
