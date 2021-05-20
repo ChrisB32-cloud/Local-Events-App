@@ -18,6 +18,8 @@ export default function RegisterPage() {
         confirmPassword: ''
     })
 
+    useEffect(() => error && toast.error(error))
+
     const handleChange = (e) => {
         setGetLogin({ ...getLogin, [e.target.name]: e.target.value })
     }
@@ -33,13 +35,15 @@ export default function RegisterPage() {
                 password: '',
                 confirmPassword: ''
             })
+            return
         }
 
-        try {
-            register(getLogin)
-        } catch (err) {
-            console.log(err, error);
-        }
+
+        const username = getLogin.userName;
+        const email = getLogin.email;
+        const password = getLogin.password
+        register({ username, email, password })
+
     }
 
 
@@ -84,7 +88,7 @@ export default function RegisterPage() {
                             value={getLogin.confirmPassword}
                             onChange={handleChange} />
                     </div>
-                    <input type="submit" value='Login' className='btn' />
+                    <input type="submit" value='Register' className='btn' />
                 </form>
                 <p>
                     Have an account? <Link href='/account/login'>Click Here</Link>
