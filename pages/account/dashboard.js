@@ -1,17 +1,38 @@
 import React from 'react'
+import { useRouter } from 'next/router'
 import { parseCookies } from '../../helpers/index'
 import { API_URL } from '../../config/index'
+import { ToastContainer, toast } from 'react-toastify';
 import DashboardEvent from '../../components/DashboardEvent'
 import Layout from '../../components/Layout'
 import styles from '../../styles/Dashboard.module.css'
 
 
-export default function DashboardPage({ events }) {
+export default function DashboardPage({ events, token }) {
 
-    // console.log(events);
+    const router = useRouter()
 
-    const handleDelete = (id) => {
-        console.log(id);
+    const handleDelete = async (id) => {
+        if (confirm('Are you sure')) {
+            const res = await fetch(`${API_URL}/events/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+
+            })
+
+            const data = await res.json()
+
+            if (!res.ok) {
+                if (res.status === 403 || res.status === 401) {
+                    toast.error('Unauthorized')
+                }
+                toast.error(data.message)
+            } else {
+                router.reload()
+            }
+        }
     }
 
     return (
@@ -28,6 +49,7 @@ export default function DashboardPage({ events }) {
 }
 
 export async function getServerSideProps({ req }) {
+    // Token
     const { token } = parseCookies(req)
 
     const res = await fetch(`${API_URL}/events/me`, {
@@ -39,11 +61,13 @@ export async function getServerSideProps({ req }) {
 
     const events = await res.json()
 
+
     // console.log(events);
 
     return {
         props: {
-            events
+            events,
+            token
         }
     }
 }

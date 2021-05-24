@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { parseCookies } from '../../../helpers/index'
 import Image from 'next/image'
 import { FaImage } from 'react-icons/fa'
 import { useRouter } from 'next/router'
@@ -13,9 +14,10 @@ import moment from 'moment'
 import styles from '../../../styles/Form.module.css'
 
 
-export default function EditEventPage({ evt }) {
+export default function EditEventPage({ evt, token }) {
 
     // console.log(evt);
+    // console.log(token);
 
     const router = useRouter()
     const [values, setValues] = useState({
@@ -58,12 +60,16 @@ export default function EditEventPage({ evt }) {
         const res = await fetch(`${API_URL}/events/${evt.id}`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
             },
             body: JSON.stringify(values)
         })
 
         if (!res.ok) {
+            if (res.status === 403 || res.status === 401) {
+                toast.error('User unauthorized')
+            }
             toast.error('Send Request failed, Something is wrong')
         } else {
             const evt = await res.json()
@@ -168,7 +174,7 @@ export default function EditEventPage({ evt }) {
                 </button>
             </div>
             <Modal show={showModal} onClose={() => setShowModal(false)}>
-                <ImageUpload evtId={evt.id} imageUploaded={imageUploaded} />
+                <ImageUpload evtId={evt.id} imageUploaded={imageUploaded} token={token} />
             </Modal>
         </Layout>
     )
@@ -180,11 +186,14 @@ export async function getServerSideProps({ params: { id }, req }) {
     const res = await fetch(`${API_URL}/events/${id}`)
     const evt = await res.json()
 
+    // Get token
+    const { token } = parseCookies(req)
     // console.log(req.headers.cookie);
 
     return {
         props: {
-            evt
+            evt,
+            token
         }
     }
 }

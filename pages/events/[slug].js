@@ -13,37 +13,12 @@ export default function EventPage({ evt }) {
 
     const router = useRouter()
 
-    async function deleteEvent(e) {
-        e.preventDefault()
-        // console.log('delete');
-        if (confirm('Are you sure')) {
-            const res = await fetch(`${API_URL}/events/${evt.id}`, {
-                method: 'DELETE'
-            })
 
-            const data = await res.json()
-
-            if (!res.ok) {
-                toast.error(data.message)
-            } else {
-                router.push('/events')
-            }
-        }
-    }
     // console.log(evt);
     return (
         <Layout>
             <div className={styles.event}>
-                <div className={styles.controls}>
-                    <Link href={`/events/edit/${evt.id}`}>
-                        <a>
-                            <FaPencilAlt /> Edit Event
-                        </a>
-                    </Link>
-                    <a href="#" className={styles.delete} onClick={deleteEvent}>
-                        <FaTimes /> Delete Event
-                    </a>
-                </div>
+
                 <span> {new Date(evt.date).toLocaleDateString('en-us')} at {evt.time} </span>
                 <h1>{evt.name}</h1>
                 <ToastContainer />
@@ -113,3 +88,14 @@ export async function getStaticProps({ params }) {
 //         }
 //     }
 // }
+
+{/* <div className={styles.controls}>
+                    <Link href={`/events/edit/${evt.id}`}>
+                        <a>
+                            <FaPencilAlt /> Edit Event
+                        </a>
+                    </Link>
+                    <a href="#" className={styles.delete} onClick={deleteEvent}>
+                        <FaTimes /> Delete Event
+                    </a>
+                </div> */}
