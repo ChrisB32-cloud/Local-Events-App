@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { parseCookies } from '../../helpers/index'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { API_URL } from '../../config/index'
@@ -8,8 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import styles from '../../styles/Form.module.css'
 
 
-export default function AddEvetsPage() {
-
+export default function AddEvetsPage({ token }) {
     const router = useRouter()
     const [values, setValues] = useState({
         name: '',
@@ -47,12 +47,17 @@ export default function AddEvetsPage() {
         const res = await fetch(`${API_URL}/events`, {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
             },
             body: JSON.stringify(values)
         })
 
         if (!res.ok) {
+            if (res.status === 403 || res.status === 401) {
+                toast.error('No token included')
+                return
+            }
             toast.error('Send Request failed, Something is wrong')
         } else {
             const evt = await res.json()
@@ -138,4 +143,15 @@ export default function AddEvetsPage() {
             </form>
         </Layout>
     )
+}
+
+
+export async function getServerSideProps({ req }) {
+    const { token } = parseCookies(req)
+
+    return {
+        props: {
+            token
+        }
+    }
 }
