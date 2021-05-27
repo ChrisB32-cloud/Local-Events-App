@@ -21,26 +21,26 @@ export default function EventMap({ evt }) {
 
     // console.log(process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY);
     // set response language. Defaults to english.
-    // Geocode.setLanguage("en");
+    Geocode.setLanguage("en");
 
-    // // Get latitude & longitude from address.
-    // useEffect(() => {
-    //     Geocode.fromAddress(evt.address).then(
-    //         (response) => {
-    //             const { lat, lng } = response.results[0].geometry.location;
-    //             // console.log(lat, lng);
-    //             setLat(lat)
-    //             setLng(lng)
-    //             setViewport({ ...viewport, latitude: lat, longitude: lng })
-    //             setLoading(false)
-    //         },
-    //         (error) => {
-    //             console.error(error);
-    //         }
-    //     );
-    // }, [])
+    // Get latitude & longitude from address.
+    useEffect(() => {
+        Geocode.fromAddress(evt.address).then(
+            (response) => {
+                const { lat, lng } = response.results[0].geometry.location;
+                // console.log(lat, lng);
+                setLat(lat)
+                setLng(lng)
+                setViewport({ ...viewport, latitude: lat, longitude: lng })
+                setLoading(false)
+            },
+            (error) => {
+                console.error(error);
+            }
+        );
+    }, [])
 
-    // Geocode.setApiKey(process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY);
+    Geocode.setApiKey(process.env.NEXT_PUBLIC_GOOGLE_MAP_API_KEY);
 
     if (loading) return false
 
