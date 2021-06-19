@@ -9,18 +9,27 @@ import styles from '../../styles/LoginPage.module.css'
 
 export default function LoginPage() {
 
+    // Destructuring login and error from context
     const { login, error } = useContext(AuthContext);
     const [getLogin, setGetLogin] = useState({
         userEmail: '',
         password: ''
     });
 
+
+    // OnChange function 
+    // Setting state from login form
     const handleChange = (e) => {
         setGetLogin({ ...getLogin, [e.target.name]: e.target.value })
     }
 
+    // If error show error with toast error message
     useEffect(() => error && toast.error(error))
 
+    // OnSubmit function
+    // Grabbing the email and password from state
+    // Try block assing email and password to context login function
+    // Catch block catching and clg the error
     const handleSubmit = (e) => {
         e.preventDefault()
         // console.log(getLogin.user);
@@ -35,6 +44,7 @@ export default function LoginPage() {
     }
 
 
+    // UI
     return (
         <Layout title='User Login'>
             <div className={styles.auth}>

@@ -9,8 +9,10 @@ import styles from '../../styles/LoginPage.module.css'
 
 export default function RegisterPage() {
 
+    // Destructuring register and error from context
     const { register, error } = useContext(AuthContext);
 
+    // Create a getLogin varible for state
     const [getLogin, setGetLogin] = useState({
         userName: '',
         email: '',
@@ -18,12 +20,20 @@ export default function RegisterPage() {
         confirmPassword: ''
     })
 
+    // If error show error with toast error message
     useEffect(() => error && toast.error(error))
 
+    // OnChange function 
+    // Setting state from login form
     const handleChange = (e) => {
         setGetLogin({ ...getLogin, [e.target.name]: e.target.value })
     }
 
+    // OnSubmit function
+    // If passwords not equal then show error from context
+    // Show error in toast error
+    // Reset State
+    // Else pass state to register function from context
     const handleSubmit = (e) => {
         e.preventDefault()
 
@@ -48,6 +58,7 @@ export default function RegisterPage() {
 
 
 
+    // UI
     return (
         <Layout title='User Login'>
             <div className={styles.auth}>

@@ -12,6 +12,17 @@ export default function DashboardPage({ events, token }) {
 
     const router = useRouter()
 
+    // Handle delete function 
+    // Checking to see if user if sure they want to delete
+    // Making a DELETE request with the events endpoint and 
+    // passing in the id
+    // Getting the Bearer token
+    // Awaiting the responce
+    // Checking to see if the responce is ok
+    // If not check res status code for 403 or 401
+    // If 403 or 401 show toast error with unauthorized message
+    // Else show toast with request message
+    // Else res is ok reload page
     const handleDelete = async (id) => {
         if (confirm('Are you sure')) {
             const res = await fetch(`${API_URL}/events/${id}`, {
@@ -35,6 +46,7 @@ export default function DashboardPage({ events, token }) {
         }
     }
 
+    // UI
     return (
         <Layout title='User Dashboard'>
             <div className={styles.dash}>
