@@ -3,8 +3,11 @@ import { API_URL } from '../../config/index'
 
 export default async (req, res) => {
     if (req.method === 'POST') {
+        // User registation
+        // Pulling username, email and password from body
         const { username, email, password } = req.body
 
+        // Making a POST request to the register endpoint
         const strapiRes = await fetch(`${API_URL}/auth/local/register`, {
             method: 'POST',
             headers: {
@@ -17,11 +20,13 @@ export default async (req, res) => {
             })
         })
 
+        // Awaiting data
         const data = await strapiRes.json()
 
 
         if (strapiRes.ok) {
             // must do -> Set cookie
+            // If responce is ok setting cookie
 
             res.setHeader('Set-Cookie', cookie.serialize('token', data.jwt, {
                 httpOnly: true,
